@@ -30,29 +30,43 @@ FROM
 WHERE
     country IN ('Afghanistan', 'Bangladesh', 'China');
 
--- 3a. You want to keep a description of each actor. You don't think you will be performing queries on a description, so create a column in the table actor named description and use the data type BLOB (Make sure to research the type BLOB, as the difference between it and VARCHAR are significant).
+-- 3a. You want to keep a description of each actor. You don't think you will be performing queries on a description, 
+-- so create a column in the table actor named description and use the data type BLOB (Make sure to research the type BLOB, as the difference between it and VARCHAR are significant).
+alter table actor
 
-
+add column description blob;
 -- 3b. Very quickly you realize that entering descriptions for each actor is too much effort. Delete the description column.
-
+ALTER TABLE actor
+DROP COLUMN description;
 
 -- 4a. List the last names of actors, as well as how many actors have that last name.
-
+select last_name, count(last_name) from actor 
+Group by last_name;
 
 -- 4b. List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors
-
+select last_name, count(last_name) from actor 
+Group by last_name;
 
 -- 4c. The actor HARPO WILLIAMS was accidentally entered in the actor table as GROUCHO WILLIAMS. Write a query to fix the record.
+UPDATE actor
+SET first_name = 'HARPO'
+WHERE first_name='GROUCHO' AND last_name = 'WILLIAMS';
 
+SELECT * FROM actor
+WHERE actor_id = 172;
 
 -- 4d. Perhaps we were too hasty in changing GROUCHO to HARPO. It turns out that GROUCHO was the correct name after all! In a single query, if the first name of the actor is currently HARPO, change it to GROUCHO.
+UPDATE actor
+SET first_name = 'GROUCHO'
+WHERE first_name='HARPO' AND last_name = 'WILLIAMS';
 
+SELECT * FROM actor
+WHERE actor_id = 172;
 
 -- 5a. You cannot locate the schema of the address table. Which query would you use to re-create it?
 
 -- Hint: https://dev.mysql.com/doc/refman/5.7/en/show-create-table.html
-
-
+SHOW CREATE TABLE address;
 
 
 -- 6a. Use JOIN to display the first and last names, as well as the address, of each staff member. Use the tables staff and address:
@@ -75,16 +89,16 @@ WHERE
 -- 7b. Use subqueries to display all actors who appear in the film Alone Trip.
 
 
-7c. You want to run an email marketing campaign in Canada, for which you will need the names and email addresses of all Canadian customers. Use joins to retrieve this information.
+-- 7c. You want to run an email marketing campaign in Canada, for which you will need the names and email addresses of all Canadian customers. Use joins to retrieve this information.
 
 
-7d. Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as family films.
+-- 7d. Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as family films.
 
 
-7e. Display the most frequently rented movies in descending order.
+-- 7e. Display the most frequently rented movies in descending order.
 
 
-7f. Write a query to display how much business, in dollars, each store brought in.
+-- 7f. Write a query to display how much business, in dollars, each store brought in.
 
 
 7g. Write a query to display for each store its store ID, city, and country.
